@@ -2,6 +2,7 @@ import sys
 import cv2
 import numpy as np
 
+# merge foreground image and background image based on binary map.
 
 def overlap(bin_img, background_img, foreground_img):
     background_img = cv2.multiply(background_img, bin_img)
