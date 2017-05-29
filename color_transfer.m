@@ -15,22 +15,32 @@ style_mean = mean(mean(style_img,2),1);
 height = size(content_img,1);
 width = size(content_img,2);
 
-matrix_vec = [];
+content_matrix_vec = [];
+style_matrix_vec = [];
 for i = 1:height
     for j = 1:width 
-        matrix_vec = [matrix_vec, content_img(i,j,:)];
+        content_matrix_vec = [content_matrix_vec, content_img(i,j,:)];
+        style_matrix_vec = [style_matrix_vec, style_img(i,j,:)];
     end
 end
-content_mean_vec = repmat(content_mean, (1, height * width));
+content_mean_vec = repmat(content_mean, [1, height * width]);
+style_mean_vec = repmat(style_mean, [1, height * width]);
 
-n_matrix_vec = matrix_vec - content_mean_vec;
+con_n_matrix_vec = content_matrix_vec - content_mean_vec;
+sty_n_matrix_vec = style_matrix_vec - content_mean_vec;
 
-sum_for_cov = n_matrix_vec(:,1) * n_matrix_vec(:,1)';
+
+sum_for_content_cov = con_n_matrix_vec(:,1) * con_n_matrix_vec(:,1)';
+sum_for_style_cov = sty_n_matrix_vec(:,1) * sty_n_matrix_vec(:,1)';
+
 for i = 1:height*width-1
-    sum_for_cov = n_matrix_vec + n_matrix_vec(:,i) * n_matrix_vec(:,i)'; 
+    sum_for_content_cov = sum_for_content_cov + con_n_matrix_vec(:,i) * con_n_matrix_vec(:,i)'; 
+    sum_for_style_cov = sum_for_style_cov + sty_n_matrix_vec(:,i) * sty_n_matrix_vec(:,i)'; 
 end 
-content_cov = sum_for_cov / (height * width);
+content_cov = sum_for_content_cov / (height * width);
+style_cov = sum_for_style_cov / (height * width);
 
+% 
 
-
+ 
 end
