@@ -1,10 +1,10 @@
-function [] = color_transfer(content_img, style_img)
+function [transfered_style_matrix_vec] = color_transfer(content_img, style_img)
 % pixel transform formula: 
 %x_s' = Ax_s + b
 
 % needs to find an and b
-b = uc - Aus 
-AsigmasAt = sigmac
+%b = uc - Aus 
+%AsigmasAt = sigmac
 
 % first compute mean pixel of all imagess
 content_mean = mean(mean(content_img,2),1);
@@ -40,7 +40,17 @@ end
 content_cov = sum_for_content_cov / (height * width);
 style_cov = sum_for_style_cov / (height * width);
 
-% 
-
+% compute the 1/2 power of covariance using svd
+[U,S,V] = svd(content_cov);
+content_cov_sqrt = U * S.^(0.5) * V';
+[U,S,V] = svd(style_cov);
+style_cov_sqrt = U * S.^(0.5) * V';
+A = content_cov_sqrt * style_cov_sqrt';
+b = content_mean  - A * style_mean; 
+for i = 1:height
+    for j = 1:width 
+        transfered_style_matrix_vec = A * style_img(j,i,:) + b;
+    end
+end
  
 end
