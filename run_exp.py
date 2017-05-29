@@ -18,7 +18,7 @@ output_name, smoothness, content_weight, style_weight, semantic_weight))
 os.chdir(cwd)
 # blending
 
-os.system("python3 overlap.py {0} {1}".format(content_img_dir,output_name))
+os.system("python3 overlap.py {0} {1}".format(content_img_dir, output_name))
 
 
 # future stages:
