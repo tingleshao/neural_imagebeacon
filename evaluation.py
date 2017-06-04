@@ -16,13 +16,12 @@ def main():
     near_indoor_objs_dir = img_dir + "near_indoor_objs/"
     near_outdoor_objs_dir = img_dir + "near_outdoor_objs/"
     signs_dir = img_dir + "signs/"
-    # read image
     # setnumber
     building_set_num = 9
     near_indoor_set_num = 21
     near_outdoor_set_num = 9
     signs_set_num = 20
-    
+    # TODO: read image
 
 
 if __name__ == '__main__':
