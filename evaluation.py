@@ -22,6 +22,18 @@ def main():
     near_outdoor_set_num = 9
     signs_set_num = 20
     # TODO: read image
+    for i in range(building_set_num):
+
+
+    for i in range(near_indoor_set_num):
+
+    for i in range(near_outdoor_set_num):
+
+
+    for i in range(signs_set_num):
+
+
+        
 
 
 if __name__ == '__main__':
