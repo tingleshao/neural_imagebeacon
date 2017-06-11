@@ -4,6 +4,9 @@
 import os
 from numpy.misc import imread, imsave
 
+from skimage import data, img_as_float
+from skimage.measure import compare_ssim as ssim
+
 
 def process_image(input_style_image_name, input_content_image_name):
     return None
@@ -74,13 +77,29 @@ def main():
     print("near_outdoor_quality" + str(near_outdoor_quality))
     print("signs_quality" + str(signs_quality))
 
-
 def evaluate_quality(image_a, ref_iamge):
-    return None
+    ssim_value = ssim(img_a, ref_image, data_range=img_a.max() - img_a.min())
+    return ssim_value
 
 
 def process_image(image):
-    return None
+    neural_doodle_dir = '/Users/chongshao/dev/neural-doodle_chong'
+    content_img_dir = ''
+    style_img_dir = ''
+    output_name = ''
+    # style transfer
+    # change dir
+    cwd = os.getcwd()
+    os.chdir(neural_doodle_dir)
+    os.system("python3 doodle.py --content {0} --style {1} --output {2} --phases=1 \
+    --smoothness={3} --seed=\"content\" --iterations=500 --content-weight={} \
+    --style-weight={} --semantic-weight={}".format(content_img_dir, style_img_dir, \
+    output_name, smoothness, content_weight, style_weight, semantic_weight))
+
+    os.chdir(cwd)
+    # blending
+
+    os.system("python3 overlap.py {0} {1}".format(content_img_dir, output_name))
 
 
 if __name__ == '__main__':
