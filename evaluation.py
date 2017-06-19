@@ -77,6 +77,7 @@ def main():
     print("near_outdoor_quality" + str(near_outdoor_quality))
     print("signs_quality" + str(signs_quality))
 
+
 def evaluate_quality(image_a, ref_iamge):
     ssim_value = ssim(img_a, ref_image, data_range=img_a.max() - img_a.min())
     return ssim_value
