@@ -2,6 +2,7 @@
 # TODO: make the computation using Google Cloud
 
 # two stages:
+
 # superresolution
 # add background textures
 
