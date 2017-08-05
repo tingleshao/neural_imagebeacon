@@ -1,5 +1,5 @@
-# transfer color of style image
-# so the result style transfer image preserves color
+
+# evaluates the method so see if neural imagebeacon improves the quality
 
 import os
 from scipy.misc import imread, imsave
