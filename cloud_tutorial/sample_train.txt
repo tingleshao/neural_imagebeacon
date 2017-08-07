@@ -1,0 +1,30 @@
+https://cloud.google.com/ml-engine/docs/how-tos/getting-started-training-prediction
+
+# Set up bucket
+
+PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+BUCKET_NAME=${PROJECT_ID}-mlengine
+
+REGION=us-central1
+gsutil mb -l $REGION gs://$BUCKET_NAME
+gsutil cp -r data gs://$BUCKET_NAME/data
+TRAIN_DATA=gs://$BUCKET_NAME/data/adult.data.csv
+EVAL_DATA=gs://$BUCKET_NAME/data/adult.test.csv
+gsutil cp ../test.json gs://$BUCKET_NAME/data/test.json
+TEST_JSON=gs://$BUCKET_NAME/data/test.json
+
+# Run trainer (single-instance) on the Cloud
+JOB_NAME=census_single_1
+OUTPUT_PATH=gs://$BUCKET_NAME/$JOB_NAME
+
+gcloud ml-engine jobs submit training $JOB_NAME \
+--job-dir $OUTPUT_PATH \
+--runtime-version 1.2 \
+--module-name trainer.task \
+--package-path trainer/ \
+--region $REGION \
+-- \
+--train-files $TRAIN_DATA \
+--eval-files $EVAL_DATA \
+--train-steps 1000 \
+--verbosity DEBUG

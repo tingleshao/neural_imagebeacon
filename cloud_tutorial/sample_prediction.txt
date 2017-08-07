@@ -1,0 +1,30 @@
+https://cloud.google.com/ml-engine/docs/how-tos/getting-started-training-prediction
+
+# Deploy a model to support prediction
+MODEL_NAME=census
+
+gcloud ml-engine models create $MODEL_NAME --regions=$REGION
+
+OUTPUT_PATH=gs://$BUCKET_NAME/census_single_1
+
+gsutil ls -r $OUTPUT_PATH/export
+
+# Find a directory named $OUTPUT_PATH/export/Servo/<timestamp> and copy this directory path
+# (without the : at the end) and set the environment variable MODEL_BINARIES to its value. For example:
+MODEL_BINARIES=gs://$BUCKET_NAME/census_dist_1/export/Servo/1487877383942/
+
+gcloud ml-engine versions create v1 \
+--model $MODEL_NAME \
+--origin $MODEL_BINARIES \
+--runtime-version 1.2
+
+gcloud ml-engine models list
+
+
+# Send a prediction request to a deployed model
+
+gcloud ml-engine predict \
+--model $MODEL_NAME \
+--version v1 \
+--json-instances \
+../test.json
